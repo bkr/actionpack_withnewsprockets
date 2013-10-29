@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.description = 'Web apps on Rails. Simple, battle-tested conventions for building and testing MVC web applications. Works with any Rack-compatible server.'
   s.required_ruby_version = '>= 1.8.7'
 
-  s.author            = 'David Heinemeier Hansson'
+  s.author            = 'David Heinemeier Hansson, Varanitsa Anatoliy'
   s.email             = 'david@loudthinking.com'
   s.homepage          = 'http://www.rubyonrails.org'
 
@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency('rack',          '~> 1.3.6')
   s.add_dependency('rack-test',     '~> 0.6.1')
   s.add_dependency('rack-mount',    '~> 0.8.2')
-  s.add_dependency('sprockets',     '~> 2.0.4')
+  s.add_dependency('sprockets',     '~> 2.1.3')
   s.add_dependency('erubis',        '~> 2.7.0')
 
   s.add_development_dependency('tzinfo', '~> 0.3.29')

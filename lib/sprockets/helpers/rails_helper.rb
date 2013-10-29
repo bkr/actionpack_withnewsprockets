@@ -63,6 +63,11 @@ module Sprockets
       end
       alias_method :path_to_image, :image_path # aliased to avoid conflicts with an image_path named route
 
+      def font_path(source)
+        path_to_asset(source)
+      end
+      alias_method :path_to_font, :font_path # aliased to avoid conflicts with an font_path named route
+
       def javascript_path(source)
         path_to_asset(source, :ext => 'js')
       end
@@ -75,14 +80,9 @@ module Sprockets
 
     private
       def debug_assets?
-        begin
-          compile_assets? &&
-            (Rails.application.config.assets.debug ||
-             params[:debug_assets] == '1' ||
-             params[:debug_assets] == 'true')
-        rescue NoMethodError
-          false
-        end
+        compile_assets? && (Rails.application.config.assets.debug || params[:debug_assets])
+      rescue NoMethodError
+        false
       end
 
       # Override to specify an alternative prefix for asset path generation.
@@ -118,11 +118,6 @@ module Sprockets
         attr_accessor :asset_environment, :asset_prefix, :asset_digests, :compile_assets, :digest_assets
 
         class AssetNotPrecompiledError < StandardError; end
-
-        # Return the filesystem path for the source
-        def compute_source_path(source, ext)
-          asset_for(source, ext)
-        end
 
         def asset_for(source, ext)
           source = source.to_s
@@ -160,7 +155,7 @@ module Sprockets
         end
 
         def rewrite_extension(source, dir, ext)
-          if ext && File.extname(source).empty?
+          if ext && File.extname(source) != ".#{ext}"
             "#{source}.#{ext}"
           else
             source

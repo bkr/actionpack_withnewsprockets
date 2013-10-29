@@ -3,6 +3,7 @@ require "action_controller/railtie"
 module Sprockets
   autoload :Bootstrap,      "sprockets/bootstrap"
   autoload :Helpers,        "sprockets/helpers"
+  autoload :Compressors,    "sprockets/compressors"
   autoload :LazyCompressor, "sprockets/compressors"
   autoload :NullCompressor, "sprockets/compressors"
   autoload :StaticCompiler, "sprockets/static_compiler"
@@ -20,8 +21,11 @@ module Sprockets
       require 'sprockets'
 
       app.assets = Sprockets::Environment.new(app.root.to_s) do |env|
-        env.logger  = ::Rails.logger
         env.version = ::Rails.env + "-#{config.assets.version}"
+
+        if config.assets.logger != false
+          env.logger  = config.assets.logger || ::Rails.logger
+        end
 
         if config.assets.cache_store != false
           env.cache = ActiveSupport::Cache.lookup_store(config.assets.cache_store) || ::Rails.cache
